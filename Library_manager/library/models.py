@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.template.defaultfilters import slugify
 
 # Create your models here.
 """
@@ -10,23 +11,38 @@ GPT: Author - Publisher - Transaction - Genre(Category) - Review
 class Author(models.Model):
     name = models.CharField(max_length=100)
     biography = models.TextField()
+    slug = models.CharField(max_length=50, unique=True, editable=False)
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Author, self).save(*args, **kwargs)
 
 class Publisher(models.Model):
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=11)
     location = models.CharField(max_length=100)
+    slug = models.CharField(max_length=50, unique=True, editable=False)
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Author, self).save(*args, **kwargs)
 
 class Genre(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.CharField(max_length=50, unique=True, editable=False)
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Author, self).save(*args, **kwargs)
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -36,9 +52,14 @@ class Book(models.Model):
     isbn = models.CharField(max_length=13, unique=True)
     genres = models.ManyToManyField(Genre)
     available = models.BooleanField(default=True)
+    slug = models.CharField(max_length=50, unique=True, editable=False)
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Author, self).save(*args, **kwargs)
 
 class Transaction(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
