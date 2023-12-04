@@ -52,6 +52,8 @@ REST_FRAMEWORK = {
     ],
 }
 
+ROLEPERMISSIONS_MODULE = 'account.roles'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
