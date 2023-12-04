@@ -3,6 +3,8 @@ from rest_framework.permissions import BasePermission
 # this function makes only the first letter of the string lowercase
 func = lambda s: s[:1].lower() + s[1:] if s else ''
 
+
+
 class AdminPermission(BasePermission):
     """
     Allows access only to admin users.
