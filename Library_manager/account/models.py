@@ -1,14 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 from .model_managers import UserManager
 from django.template.defaultfilters import slugify
+from rolepermissions.roles import assign_role
 
 
-class User(AbstractBaseUser):
+class User(AbstractUser):
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
     date_of_birth = models.DateField()
     email = models.EmailField(verbose_name="email address", max_length=255, unique=True)
+    username = models.CharField(verbose_name="email address", max_length=255, blank=True, null=True)
     phone_number = models.CharField(verbose_name="phone number", max_length=10, null=True, blank=True, unique=True)
     slug = models.CharField(max_length=50, unique=True, editable=False)
     created_time = models.DateTimeField(auto_now_add=True)
@@ -44,6 +46,7 @@ class User(AbstractBaseUser):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.member_code)
+        self.username = self.email
         super(User, self).save(*args, **kwargs)
 
     @property
