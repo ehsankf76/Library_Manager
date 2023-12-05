@@ -31,7 +31,7 @@ class Publisher(models.Model):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Author, self).save(*args, **kwargs)
+        super(Publisher, self).save(*args, **kwargs)
 
 class Genre(models.Model):
     name = models.CharField(max_length=100)
@@ -42,7 +42,7 @@ class Genre(models.Model):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Author, self).save(*args, **kwargs)
+        super(Genre, self).save(*args, **kwargs)
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -59,7 +59,7 @@ class Book(models.Model):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(Author, self).save(*args, **kwargs)
+        super(Book, self).save(*args, **kwargs)
 
 class Transaction(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)

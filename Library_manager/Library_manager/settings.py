@@ -47,9 +47,9 @@ REST_FRAMEWORK = {
     ],
 
     # permissions
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    # ],
 }
 
 ROLEPERMISSIONS_MODULE = 'account.roles'

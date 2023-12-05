@@ -10,9 +10,8 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=40)
     date_of_birth = models.DateField()
     email = models.EmailField(verbose_name="email address", max_length=255, unique=True)
-    username = models.CharField(verbose_name="email address", max_length=255, blank=True, null=True)
+    username = models.CharField(verbose_name="username", max_length=255, blank=True, null=True)
     phone_number = models.CharField(verbose_name="phone number", max_length=10, null=True, blank=True, unique=True)
-    slug = models.CharField(max_length=50, unique=True, editable=False)
     created_time = models.DateTimeField(auto_now_add=True)
     member_code = models.CharField(verbose_name="member code", max_length=10, null=True, blank=True, unique=True)
 
@@ -45,9 +44,9 @@ class User(AbstractUser):
         return self.is_staff
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.member_code)
         self.username = self.email
         super(User, self).save(*args, **kwargs)
+        assign_role(self, self.role)
 
     @property
     def is_staff(self):

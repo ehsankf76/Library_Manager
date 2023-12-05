@@ -1,7 +1,23 @@
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, SAFE_METHODS
+from rolepermissions.permissions import register_object_checker
+from rolepermissions.checkers import has_permission as has_permis
+from account import roles
 
 # this function makes only the first letter of the string lowercase
 func = lambda s: s[:1].lower() + s[1:] if s else ''
+
+
+class TransactionPermission(BasePermission):
+    message = 'Access Denied! :)'
+
+    def has_permission(self, request, view):
+        if not request.user.is_authenticated:
+            return request.method in SAFE_METHODS
+        if has_permis(request.user, 'assign_transactions'):
+            return request.method in ['GET', 'HEAD', 'OPTIONS', 'POST'] or view.action in ['create', 'update', 'partial_update']
+        
+        return request.method in SAFE_METHODS
+
 
 
 

@@ -1,7 +1,8 @@
 from django.shortcuts import render
 
 # Create your views here.
-
+from rest_framework.parsers import MultiPartParser
+from . import permissions
 from . import models
 from django.shortcuts import get_object_or_404
 from . import serializers
@@ -37,6 +38,7 @@ class BookViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing book instances.
     """
+    
     queryset = models.Book.objects.all()
     serializer_class = serializers.BookSerializer
     lookup_field = 'slug'
@@ -47,6 +49,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     """
     queryset = models.Transaction.objects.all()
     serializer_class = serializers.TransactionSerializer
+    permission_classes = [permissions.TransactionPermission]
 
 class ReviewViewSet(viewsets.ModelViewSet):
     """
