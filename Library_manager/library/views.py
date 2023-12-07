@@ -17,6 +17,7 @@ class AuthorViewSet(viewsets.ModelViewSet):
     queryset = models.Author.objects.all()
     serializer_class = serializers.AuthorSerializer
     lookup_field = 'slug'
+    permission_classes = [permissions.IsAdminOrReadOnly]
 
 class PublisherViewSet(viewsets.ModelViewSet):
     """
@@ -25,6 +26,7 @@ class PublisherViewSet(viewsets.ModelViewSet):
     queryset = models.Publisher.objects.all()
     serializer_class = serializers.PublisherSerializer
     lookup_field = 'slug'
+    permission_classes = [permissions.IsAdminOrReadOnly]
 
 class GenreViewSet(viewsets.ModelViewSet):
     """
@@ -33,12 +35,12 @@ class GenreViewSet(viewsets.ModelViewSet):
     queryset = models.Genre.objects.all()
     serializer_class = serializers.GenreSerializer
     lookup_field = 'slug'
+    permission_classes = [permissions.IsAdminOrReadOnly]
 
 class BookViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing book instances.
     """
-    
     queryset = models.Book.objects.all()
     serializer_class = serializers.BookSerializer
     lookup_field = 'slug'

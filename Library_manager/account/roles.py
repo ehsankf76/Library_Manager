@@ -2,7 +2,7 @@ from rolepermissions.roles import AbstractUserRole
 
 class Admin(AbstractUserRole):
     available_permissions = {
-        'drop_tables': True,
+        'add_information': True,
         'assign_transactions': True,
         'write_reviews': True,
         'read_information': True,

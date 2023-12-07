@@ -2,10 +2,30 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 from rolepermissions.permissions import register_object_checker
 from rolepermissions.checkers import has_permission as has_permis
 from account import roles
+from rest_framework.exceptions import PermissionDenied
+
 
 # this function makes only the first letter of the string lowercase
 func = lambda s: s[:1].lower() + s[1:] if s else ''
 
+
+class IsAdminOrReadOnly(BasePermission):
+    message = 'Sorry! Only admin has access to this! :)'
+
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        elif has_permis(request.user, 'add_information'):
+            return request.method in ['GET', 'HEAD', 'OPTIONS', 'POST'] or view.action in ['create', 'update', 'partial_update']
+        
+        # raise PermissionDenied("Sorry! Only admin has access to this.")
+    
+    def has_object_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        if has_permis(request.user, 'add_information'):
+            return request.method in ['GET', 'HEAD', 'OPTIONS', 'POST'] or view.action in ['create', 'update', 'partial_update']
+            
 
 class TransactionPermission(BasePermission):
     message = 'Access Denied! :)'
