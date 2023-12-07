@@ -6,12 +6,14 @@ class Admin(AbstractUserRole):
         'assign_transactions': True,
         'write_reviews': True,
         'read_information': True,
+        'book_management': True,
     }
 
 class Staff(AbstractUserRole):
     available_permissions = {
         'assign_transactions': True,
         'read_information': True,
+        'book_management': True,
     }
 
 class Member(AbstractUserRole):

@@ -25,6 +25,24 @@ class IsAdminOrReadOnly(BasePermission):
             return True
         if has_permis(request.user, 'add_information'):
             return request.method in ['GET', 'HEAD', 'OPTIONS', 'POST'] or view.action in ['create', 'update', 'partial_update']
+
+
+class IsStaffOrReadOnly(BasePermission):
+    message = 'Sorry! Only library staff has access to this! :)'
+
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        elif has_permis(request.user, 'book_management'):
+            return request.method in ['GET', 'HEAD', 'OPTIONS', 'POST'] or view.action in ['create', 'update', 'partial_update']
+        
+        # raise PermissionDenied("Sorry! Only library staff has access to this.")
+    
+    def has_object_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        if has_permis(request.user, 'book_management'):
+            return request.method in ['GET', 'HEAD', 'OPTIONS', 'POST'] or view.action in ['create', 'update', 'partial_update']
             
 
 class TransactionPermission(BasePermission):

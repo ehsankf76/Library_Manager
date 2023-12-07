@@ -44,6 +44,7 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = models.Book.objects.all()
     serializer_class = serializers.BookSerializer
     lookup_field = 'slug'
+    permission_classes = [permissions.IsStaffOrReadOnly]
 
 class TransactionViewSet(viewsets.ModelViewSet):
     """
