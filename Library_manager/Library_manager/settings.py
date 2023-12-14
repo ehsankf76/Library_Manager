@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'rest_framework_simplejwt',
     'rolepermissions',
+    'django_filters',
 
     # my_apps
     'account',
