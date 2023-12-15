@@ -7,6 +7,8 @@ from . import models
 from django.shortcuts import get_object_or_404
 from . import serializers
 from rest_framework import viewsets
+# from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
 
 
 
@@ -45,6 +47,12 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BookSerializer
     lookup_field = 'slug'
     permission_classes = [permissions.IsStaffOrReadOnly]
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ('title', 'author', 'publisher', 'genres', 'available')
+    # filterset_fields = {
+    #     'field_name': ['exact', 'contains'],
+    #     # Add more fields and their filters as needed
+    # }
 
 class TransactionViewSet(viewsets.ModelViewSet):
     """
